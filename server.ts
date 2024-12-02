@@ -16,9 +16,9 @@ app.get('/', (req, res) => {
 // Projects route
 app.get('/api/projects', (req, res) => {
   const page = parseInt(req.query.page as string) || 1;
-  const pageSize = parseInt(req.query.pageSize as string) || 10;
+  const limit = parseInt(req.query.limit as string) || 10;
 
-  const response = generatePaginatedResponse(page, pageSize);
+  const response = generatePaginatedResponse(page, limit);
   res.json(response);
 });
 

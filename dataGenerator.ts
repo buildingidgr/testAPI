@@ -48,11 +48,11 @@ function generateProject(): Project {
   };
 }
 
-export function generatePaginatedResponse(page: number, pageSize: number): PaginatedResponse {
+export function generatePaginatedResponse(page: number, limit: number): PaginatedResponse {
   const totalProjects = 100; // You can adjust this number as needed
-  const totalPages = Math.ceil(totalProjects / pageSize);
+  const totalPages = Math.ceil(totalProjects / limit);
 
-  const projects = Array.from({ length: pageSize }, generateProject);
+  const projects = Array.from({ length: limit }, generateProject);
 
   return {
     projects,
