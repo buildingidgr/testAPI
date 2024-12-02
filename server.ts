@@ -26,7 +26,7 @@ app.get('/api/projects', (req, res) => {
   res.json(response);
 });
 
-// New category data route
+// Category data route
 app.get('/api/projects/categories', (req, res) => {
   const categoryData = generateCategoryData();
   res.json(categoryData);

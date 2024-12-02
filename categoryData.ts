@@ -6,19 +6,19 @@ interface CategoryData {
   fill: string;
 }
 
-const projectTypes = [
-  'Infrastructure', 'Commercial', 'Residential', 'Industrial', 'Energy'
-];
-
-const fillColors = [
-  'neutral-50', 'neutral-100', 'neutral-200', 'neutral-300', 'neutral-400'
+const categories = [
+  { category: "Infrastructure", fill: "var(--color-infrastructure)" },
+  { category: "Commercial", fill: "hsl(var(--primary))" },
+  { category: "Residential", fill: "hsl(var(--secondary))" },
+  { category: "Industrial", fill: "hsl(var(--accent))" },
+  { category: "Energy", fill: "hsl(var(--muted))" }
 ];
 
 export function generateCategoryData(): CategoryData[] {
-  return projectTypes.map((category, index) => ({
+  return categories.map(({ category, fill }) => ({
     category,
     projects: faker.number.int({ min: 50, max: 300 }),
-    fill: fillColors[index]
+    fill
   }));
 }
 
