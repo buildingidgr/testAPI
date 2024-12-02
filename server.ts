@@ -1,8 +1,12 @@
 import express from 'express';
+import cors from 'cors';
 import { generatePaginatedResponse } from './dataGenerator';
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Enable CORS for all routes
+app.use(cors());
 
 // Root route
 app.get('/', (req, res) => {
