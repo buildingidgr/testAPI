@@ -5,18 +5,13 @@ import { generatePaginatedResponse } from './dataGenerator';
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Enable CORS for all routes
 app.use(cors());
-
-// Middleware to parse JSON bodies
 app.use(express.json());
 
-// Root route
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Greece Projects API' });
 });
 
-// Projects route
 app.get('/api/projects', (req, res) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
@@ -25,7 +20,6 @@ app.get('/api/projects', (req, res) => {
   res.json(response);
 });
 
-// Catch-all route for undefined routes
 app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' });
 });

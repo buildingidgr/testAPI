@@ -14,11 +14,16 @@ interface Project {
   }
 }
 
+interface CategoryTotals {
+  [category: string]: number;
+}
+
 interface PaginatedResponse {
   projects: Project[];
   currentPage: number;
   totalPages: number;
   totalProjects: number;
+  categoryTotals: CategoryTotals;
 }
 
 const projectTypes = [
@@ -48,9 +53,22 @@ function generateProject(): Project {
   };
 }
 
+function generateCategoryTotals(totalProjects: number): CategoryTotals {
+  const totals: CategoryTotals = {};
+  projectTypes.forEach(type => {
+    totals[type] = Math.floor(Math.random() * (totalProjects / 10)) + 1;
+  });
+  const sum = Object.values(totals).reduce((a, b) => a + b, 0);
+  if (sum < totalProjects) {
+    totals[projectTypes[0]] += totalProjects - sum;
+  }
+  return totals;
+}
+
 export function generatePaginatedResponse(page: number, limit: number): PaginatedResponse {
   const totalProjects = 100; // You can adjust this number as needed
   const totalPages = Math.ceil(totalProjects / limit);
+  const categoryTotals = generateCategoryTotals(totalProjects);
 
   const projects = Array.from({ length: Math.min(limit, totalProjects) }, generateProject);
 
@@ -58,7 +76,8 @@ export function generatePaginatedResponse(page: number, limit: number): Paginate
     projects,
     currentPage: page,
     totalPages,
-    totalProjects
+    totalProjects,
+    categoryTotals
   };
 }
 
