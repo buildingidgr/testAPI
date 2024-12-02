@@ -7,11 +7,11 @@ interface CategoryData {
 }
 
 const categories = [
-  { category: "Infrastructure", fill: "var(--color-infrastructure)" },
-  { category: "Commercial", fill: "hsl(var(--primary))" },
-  { category: "Residential", fill: "hsl(var(--secondary))" },
-  { category: "Industrial", fill: "hsl(var(--accent))" },
-  { category: "Energy", fill: "hsl(var(--muted))" }
+  { category: "Infrastructure", fill: "hsl(var(--chart-1))" },
+  { category: "Commercial", fill: "hsl(var(--chart-2))" },
+  { category: "Residential", fill: "hsl(var(--chart-3))" },
+  { category: "Industrial", fill: "hsl(var(--chart-4))" },
+  { category: "Energy", fill: "hsl(var(--chart-5))" }
 ];
 
 export function generateCategoryData(): CategoryData[] {
