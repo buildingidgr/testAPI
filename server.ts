@@ -8,6 +8,9 @@ const port = process.env.PORT || 3000;
 // Enable CORS for all routes
 app.use(cors());
 
+// Middleware to parse JSON bodies
+app.use(express.json());
+
 // Root route
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Greece Projects API' });

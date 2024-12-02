@@ -52,7 +52,7 @@ export function generatePaginatedResponse(page: number, limit: number): Paginate
   const totalProjects = 100; // You can adjust this number as needed
   const totalPages = Math.ceil(totalProjects / limit);
 
-  const projects = Array.from({ length: limit }, generateProject);
+  const projects = Array.from({ length: Math.min(limit, totalProjects) }, generateProject);
 
   return {
     projects,
