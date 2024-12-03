@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { generatePaginatedResponse } from './dataGenerator';
+import { generatePaginatedResponse, projectTypes } from './dataGenerator';
 import { generateCategoryData } from './categoryData';
 
 const app = express();
@@ -17,12 +17,19 @@ app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Greece Projects API' });
 });
 
-// Projects route
+// Projects route with filtering
 app.get('/api/projects', (req, res) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
+  const types = (req.query.type as string | string[]) || [];
 
-  const response = generatePaginatedResponse(page, limit);
+  // Ensure types is always an array
+  const typeFilters = Array.isArray(types) ? types : [types];
+
+  // Validate type filters
+  const validTypes = typeFilters.filter(type => projectTypes.includes(type));
+
+  const response = generatePaginatedResponse(page, limit, validTypes);
   res.json(response);
 });
 
@@ -30,6 +37,11 @@ app.get('/api/projects', (req, res) => {
 app.get('/api/projects/categories', (req, res) => {
   const categoryData = generateCategoryData();
   res.json(categoryData);
+});
+
+// Available project types route
+app.get('/api/projects/types', (req, res) => {
+  res.json(projectTypes);
 });
 
 // Catch-all route for undefined routes

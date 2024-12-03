@@ -14,19 +14,14 @@ interface Project {
   }
 }
 
-interface CategoryTotals {
-  [category: string]: number;
-}
-
 interface PaginatedResponse {
   projects: Project[];
   currentPage: number;
   totalPages: number;
   totalProjects: number;
-  categoryTotals: CategoryTotals;
 }
 
-const projectTypes = [
+export const projectTypes = [
   'Infrastructure', 'Commercial', 'Residential', 'Industrial', 'Energy', 
   'Tourism', 'Technology', 'Agriculture', 'Education', 'Healthcare'
 ];
@@ -53,31 +48,25 @@ function generateProject(): Project {
   };
 }
 
-function generateCategoryTotals(totalProjects: number): CategoryTotals {
-  const totals: CategoryTotals = {};
-  projectTypes.forEach(type => {
-    totals[type] = Math.floor(Math.random() * (totalProjects / 10)) + 1;
-  });
-  const sum = Object.values(totals).reduce((a, b) => a + b, 0);
-  if (sum < totalProjects) {
-    totals[projectTypes[0]] += totalProjects - sum;
-  }
-  return totals;
-}
-
-export function generatePaginatedResponse(page: number, limit: number): PaginatedResponse {
+export function generatePaginatedResponse(page: number, limit: number, types: string[] = []): PaginatedResponse {
   const totalProjects = 100; // You can adjust this number as needed
-  const totalPages = Math.ceil(totalProjects / limit);
-  const categoryTotals = generateCategoryTotals(totalProjects);
+  let projects = Array.from({ length: totalProjects }, generateProject);
 
-  const projects = Array.from({ length: Math.min(limit, totalProjects) }, generateProject);
+  // Filter projects if types are provided
+  if (types.length > 0) {
+    projects = projects.filter(project => types.includes(project.type));
+  }
+
+  const totalFilteredProjects = projects.length;
+  const totalPages = Math.ceil(totalFilteredProjects / limit);
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
 
   return {
-    projects,
+    projects: projects.slice(startIndex, endIndex),
     currentPage: page,
     totalPages,
-    totalProjects,
-    categoryTotals
+    totalProjects: totalFilteredProjects
   };
 }
 
