@@ -56,12 +56,12 @@ app.get('/api/projects/:id', (req, res) => {
   res.json(project);
 });
 
-// PUT endpoint for returning random project data
+// PUT endpoint for returning random project data (no body required)
 app.put('/api/projects/:id', (req, res) => {
   // Generate a completely random project
   const randomProject = generateRandomProject();
 
-  // Ignore the input ID and use the randomly generated one
+  // Return the random project data
   res.json(randomProject);
 });
 
