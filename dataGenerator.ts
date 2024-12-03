@@ -88,6 +88,26 @@ function projectToResponse(project: Project): ProjectResponse {
   return projectResponse;
 }
 
+interface ProjectUpdateData {
+  title?: string;
+  description?: string;
+  type?: string;
+  state?: 'public' | 'private';
+  location?: {
+    address?: string;
+    coordinates?: {
+      lat?: number;
+      lng?: number;
+    }
+  };
+  customer?: {
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    phone?: string;
+  };
+}
+
 export function generatePaginatedResponse(page: number, limit: number, types: string[] = []): PaginatedResponse {
   const totalProjects = 100; // You can adjust this number as needed
   let projects = Array.from({ length: totalProjects }, generateProject);
@@ -110,5 +130,36 @@ export function generatePaginatedResponse(page: number, limit: number, types: st
     totalPages,
     totalProjects: totalFilteredProjects
   };
+}
+
+let projects: Project[] = Array.from({ length: 100 }, generateProject);
+
+export function updateProject(id: string, updateData: ProjectUpdateData): Project | null {
+  const projectIndex = projects.findIndex(p => p.id === id);
+  if (projectIndex === -1) return null;
+
+  const updatedProject = {
+    ...projects[projectIndex],
+    ...updateData,
+    location: {
+      ...projects[projectIndex].location,
+      ...updateData.location,
+      coordinates: {
+        ...projects[projectIndex].location.coordinates,
+        ...updateData.location?.coordinates
+      }
+    },
+    customer: {
+      ...projects[projectIndex].customer,
+      ...updateData.customer
+    }
+  };
+
+  projects[projectIndex] = updatedProject;
+  return updatedProject;
+}
+
+export function getProjectById(id: string): Project | null {
+  return projects.find(p => p.id === id) || null;
 }
 

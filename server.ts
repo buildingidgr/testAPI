@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { generatePaginatedResponse, projectTypes } from './dataGenerator';
+import { generatePaginatedResponse, projectTypes, updateProject, getProjectById } from './dataGenerator';
 import { generateCategoryData } from './categoryData';
 
 const app = express();
@@ -31,6 +31,32 @@ app.get('/api/projects', (req, res) => {
 
   const response = generatePaginatedResponse(page, limit, validTypes);
   res.json(response);
+});
+
+// New PUT endpoint for updating a project
+app.put('/api/projects/:id', (req, res) => {
+  const { id } = req.params;
+  const updateData = req.body;
+
+  const updatedProject = updateProject(id, updateData);
+
+  if (!updatedProject) {
+    return res.status(404).json({ error: 'Project not found' });
+  }
+
+  res.json(updatedProject);
+});
+
+// GET endpoint for retrieving a single project with customer data
+app.get('/api/projects/:id', (req, res) => {
+  const { id } = req.params;
+  const project = getProjectById(id);
+
+  if (!project) {
+    return res.status(404).json({ error: 'Project not found' });
+  }
+
+  res.json(project);
 });
 
 // Category data route
