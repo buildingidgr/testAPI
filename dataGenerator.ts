@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 interface Project {
+  id: string;
   title: string;
   description: string;
   type: string;
@@ -34,6 +35,7 @@ const greekCities = [
 function generateProject(): Project {
   const city = faker.helpers.arrayElement(greekCities);
   return {
+    id: faker.string.uuid(),
     title: `${faker.company.buzzPhrase()} in ${city}`,
     description: faker.lorem.paragraph(),
     type: faker.helpers.arrayElement(projectTypes),
