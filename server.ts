@@ -58,6 +58,9 @@ app.get('/api/projects/:id', (req, res) => {
 
 // PUT endpoint for returning random project data (no body required)
 app.put('/api/projects/:id', (req, res) => {
+  // Log the received request for debugging
+  console.log('Received PUT request for project ID:', req.params.id);
+
   // Generate a completely random project
   const randomProject = generateRandomProject();
 
