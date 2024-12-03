@@ -17,6 +17,17 @@ app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Greece Projects API' });
 });
 
+// Category data route
+app.get('/api/projects/categories', (req, res) => {
+  const categoryData = generateCategoryData();
+  res.json(categoryData);
+});
+
+// Available project types route
+app.get('/api/projects/types', (req, res) => {
+  res.json(projectTypes);
+});
+
 // Projects route with filtering
 app.get('/api/projects', (req, res) => {
   const page = parseInt(req.query.page as string) || 1;
@@ -33,16 +44,6 @@ app.get('/api/projects', (req, res) => {
   res.json(response);
 });
 
-// Updated PUT endpoint for updating a project (now returns random data)
-app.put('/api/projects/:id', (req, res) => {
-  const { id } = req.params;
-  
-  // Generate a random updated project
-  const updatedProject = generateRandomUpdatedProject(id);
-
-  res.json(updatedProject);
-});
-
 // GET endpoint for retrieving a single project with customer data
 app.get('/api/projects/:id', (req, res) => {
   const { id } = req.params;
@@ -55,15 +56,14 @@ app.get('/api/projects/:id', (req, res) => {
   res.json(project);
 });
 
-// Category data route
-app.get('/api/projects/categories', (req, res) => {
-  const categoryData = generateCategoryData();
-  res.json(categoryData);
-});
+// Updated PUT endpoint for updating a project (now returns random data)
+app.put('/api/projects/:id', (req, res) => {
+  const { id } = req.params;
+  
+  // Generate a random updated project
+  const updatedProject = generateRandomUpdatedProject(id);
 
-// Available project types route
-app.get('/api/projects/types', (req, res) => {
-  res.json(projectTypes);
+  res.json(updatedProject);
 });
 
 // Catch-all route for undefined routes
