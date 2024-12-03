@@ -160,7 +160,11 @@ export function updateProject(id: string, updateData: ProjectUpdateData): Projec
 }
 
 export function getProjectById(id: string): Project | null {
-  return projects.find(p => p.id === id) || null;
+  const project = projects.find(p => p.id === id);
+  if (!project) return null;
+
+  // Return a deep copy of the project to avoid modifying the original data
+  return JSON.parse(JSON.stringify(project));
 }
 
 export function generateRandomUpdatedProject(id: string): Project {

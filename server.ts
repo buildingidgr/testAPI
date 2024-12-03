@@ -56,14 +56,18 @@ app.get('/api/projects/:id', (req, res) => {
   res.json(project);
 });
 
-// Updated PUT endpoint for updating a project (now returns random data)
+// PUT endpoint for returning existing project data with customer details
 app.put('/api/projects/:id', (req, res) => {
   const { id } = req.params;
   
-  // Generate a random updated project
-  const updatedProject = generateRandomUpdatedProject(id);
+  const project = getProjectById(id);
 
-  res.json(updatedProject);
+  if (!project) {
+    return res.status(404).json({ error: 'Project not found' });
+  }
+
+  // Return the existing project data, including customer details
+  res.json(project);
 });
 
 // Catch-all route for undefined routes
