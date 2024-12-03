@@ -163,3 +163,27 @@ export function getProjectById(id: string): Project | null {
   return projects.find(p => p.id === id) || null;
 }
 
+export function generateRandomUpdatedProject(id: string): Project {
+  const city = faker.helpers.arrayElement(greekCities);
+  return {
+    id: id,
+    title: `Updated: ${faker.company.buzzPhrase()} in ${city}`,
+    description: faker.lorem.paragraph(),
+    type: faker.helpers.arrayElement(projectTypes),
+    state: faker.helpers.arrayElement(['public', 'private']),
+    location: {
+      address: `${faker.location.streetAddress()}, ${city}, Greece`,
+      coordinates: {
+        lat: faker.location.latitude({ max: 41.7, min: 35 }),
+        lng: faker.location.longitude({ max: 28.2, min: 19.3 })
+      }
+    },
+    customer: {
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
+      email: faker.internet.email(),
+      phone: faker.phone.number('+30 69########')
+    }
+  };
+}
+

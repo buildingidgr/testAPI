@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { generatePaginatedResponse, projectTypes, updateProject, getProjectById } from './dataGenerator';
+import { generatePaginatedResponse, projectTypes, generateRandomUpdatedProject, getProjectById } from './dataGenerator';
 import { generateCategoryData } from './categoryData';
 
 const app = express();
@@ -33,16 +33,12 @@ app.get('/api/projects', (req, res) => {
   res.json(response);
 });
 
-// New PUT endpoint for updating a project
+// Updated PUT endpoint for updating a project (now returns random data)
 app.put('/api/projects/:id', (req, res) => {
   const { id } = req.params;
-  const updateData = req.body;
-
-  const updatedProject = updateProject(id, updateData);
-
-  if (!updatedProject) {
-    return res.status(404).json({ error: 'Project not found' });
-  }
+  
+  // Generate a random updated project
+  const updatedProject = generateRandomUpdatedProject(id);
 
   res.json(updatedProject);
 });
