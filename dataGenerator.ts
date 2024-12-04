@@ -215,3 +215,22 @@ export function generateRandomProject(): Project {
   };
 }
 
+export function generateProjectsForUser(userId: string, page: number, limit: number): PaginatedResponse {
+  // Use the userId as a seed for consistent randomization
+  faker.seed(userId.split('').map(char => char.charCodeAt(0)).reduce((a, b) => a + b, 0));
+
+  const totalProjects = faker.number.int({ min: 50, max: 200 });
+  const projects: Project[] = Array.from({ length: totalProjects }, generateProject);
+
+  const totalPages = Math.ceil(totalProjects / limit);
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+
+  return {
+    projects: projects.slice(startIndex, endIndex),
+    currentPage: page,
+    totalPages,
+    totalProjects
+  };
+}
+
